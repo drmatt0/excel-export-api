@@ -23,17 +23,16 @@ def generate_excel():
         })
 
     df = pd.DataFrame(rows)
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
-        df.to_excel(writer, index=False, sheet_name="Questions")
-    output.seek(0)
+output = io.StringIO()
+df.to_csv(output, index=False)
+output.seek(0)
 
-    return send_file(
-        output,
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        as_attachment=True,
-        download_name="questions.xlsx"
-    )
+return send_file(
+    io.BytesIO(output.getvalue().encode()),  # convert str to bytes
+    mimetype="text/csv",
+    as_attachment=True,
+    download_name="questions.csv"
+)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
