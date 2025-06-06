@@ -31,4 +31,5 @@ df.to_csv(filepath, index=False)
 
 file_url = request.url_root.rstrip('/') + f'/static/{filename}'
 return jsonify({"url": file_url})
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
