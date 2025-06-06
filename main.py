@@ -28,7 +28,7 @@ def generate_excel():
     output.seek(0)
 
     return send_file(
-        io.BytesIO(output.getvalue().encode()),  # Convert to bytes
+        io.BytesIO(output.getvalue().encode()),
         mimetype="text/csv",
         as_attachment=True,
         download_name="questions.csv"
