@@ -23,20 +23,12 @@ def generate_excel():
             "ePBS": q.get("epbs")
         })
 
-    df = pd.DataFrame(rows)
-    output = io.StringIO()
-    df.to_csv(output, index=False)
-    output.seek(0)
+df = pd.DataFrame(rows)
 
-    # Save CSV to /static folder
-    filename = "PHR921_Questions.csv"
-    filepath = os.path.join("static", filename)
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(output.getvalue())
+filename = "PHR921_Questions.csv"
+filepath = os.path.join("static", filename)
+df.to_csv(filepath, index=False)
 
-    # Create public file URL
-    file_url = request.url_root.rstrip('/') + f"/static/{filename}"
-    return jsonify({"url": file_url})
-
-if __name__ == "__main__":
+file_url = request.url_root.rstrip('/') + f'/static/{filename}'
+return jsonify({"url": file_url})
     app.run(host="0.0.0.0", port=8080)
