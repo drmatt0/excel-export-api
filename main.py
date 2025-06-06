@@ -1,6 +1,7 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, jsonify
 import pandas as pd
 import io
+import os
 
 app = Flask(__name__)
 
@@ -27,12 +28,15 @@ def generate_excel():
     df.to_csv(output, index=False)
     output.seek(0)
 
-    return send_file(
-        io.BytesIO(output.getvalue().encode()),
-        mimetype="text/csv",
-        as_attachment=True,
-        download_name="questions.csv"
-    )
+    # Save CSV to /static folder
+    filename = "PHR921_Questions.csv"
+    filepath = os.path.join("static", filename)
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(output.getvalue())
+
+    # Create public file URL
+    file_url = request.url_root.rstrip('/') + f"/static/{filename}"
+    return jsonify({"url": file_url})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
