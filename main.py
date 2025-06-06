@@ -9,7 +9,7 @@ def generate_excel():
     data = request.json
     rows = []
 
-    for q in data.get("questions", []):
+    for q in data:
         rows.append({
             "Question Text": q.get("question"),
             "Correct Answer": q.get("correct_answer"),
