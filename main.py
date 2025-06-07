@@ -23,13 +23,13 @@ def generate_excel():
             "ePBS": q.get("epbs")
         })
 
-df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
 
-filename = "PHR921_Questions.csv"
-filepath = os.path.join("static", filename)
-df.to_csv(filepath, index=False)
+    filename = "PHR921_Questions.csv"
+    filepath = os.path.join("static", filename)
+    df.to_csv(filepath, index=False)
 
-file_url = request.url_root.rstrip('/') + f'/static/{filename}'
-return jsonify({"url": file_url})
+    file_url = request.url_root.rstrip('/') + f'/static/{filename}'
+    return jsonify({"url": file_url})
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
